@@ -1,4 +1,5 @@
 import express, { application } from "express"
+import * as movies from "./data/movies.js"
 
 const app = express()
 
@@ -9,7 +10,16 @@ app.get("/", function(req, res) {
 })
 
 app.get("/home", function(req, res) {
-  res.send("<h1>Home page</h1>")
+  res.render("home")
+})
+
+app.get("/movies", function (req, res) {
+  movies.find({}, function (error, movies) {
+    res.render("movies/index", {
+      error : error,
+      movies : movies
+    })
+  })
 })
 
 app.listen(3000, function() {
